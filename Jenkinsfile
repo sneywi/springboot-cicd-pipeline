@@ -7,13 +7,13 @@ pipeline {
     }
     
     environment{
-        SCANNER_HOME= tool 'sonar-scanner'
+        SCANNER_HOME = tool 'sonar-scanner'
     }
 
     stages {
         stage('Git Checkout ') {
             steps {
-                git branch: 'main', changelog: false, poll: false, url: 'https://github.com/jaiswaladi246/SpringBoot-WebApplication.git'
+                git branch: 'main', changelog: false, poll: false, url: 'https://github.com/sneywi/springboot-cicd-pipeline.git'
             }
         }
         
@@ -57,9 +57,9 @@ pipeline {
             steps {
                    script {
                        withDockerRegistry(credentialsId: 'b289dc43-2ede-4bd0-95e8-75ca26100d8d', toolName: 'docker') {
-                            sh "docker build -t webapp ."
-                            sh "docker tag webapp adijaiswal/webapp:latest"
-                            sh "docker push adijaiswal/webapp:latest "
+                            sh "docker build -t springboot-webapp ."
+                            sh "docker tag springboot-webapp sney2307/springboot-webapp:latest"
+                            sh "docker push sney2307/springboot-webapp:latest "
                         }
                    } 
             }
@@ -67,7 +67,7 @@ pipeline {
         
         stage('Docker Image scan') {
             steps {
-                    sh "trivy image adijaiswal/webapp:latest "
+                    sh "trivy image sney2307/springboot-webapp:latest "
             }
         }
         
