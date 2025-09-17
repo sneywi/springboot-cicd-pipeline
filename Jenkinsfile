@@ -39,13 +39,14 @@ pipeline {
                 }
             }
         }
-        
+
         stage('OWASP Dependency Check') {
             steps {
-                   dependencyCheck additionalArguments: '--scan ./   ', odcInstallation: 'DP'
-                   dependencyCheckPublisher pattern: '**/dependency-check-report.xml'
+                    dependencyCheck additionalArguments: "--scan ./ --nvdApiKey ${env.NVD_API_KEY}", odcInstallation: 'DP'
+                    dependencyCheckPublisher pattern: '**/dependency-check-report.xml'
             }
         }
+
         
         stage('Maven Build') {
             steps {
